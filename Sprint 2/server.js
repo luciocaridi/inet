@@ -15,13 +15,16 @@ router.get('/test', function(req, res) {
 var City = require('./models/City');
 
 router.get('/cities/all', function(req, res) {
-        City.find({}, function(err, city) {
+       City.find({}, function(err, cities) {
+           res.send(cities);
+       });
+       /* City.find({}, function(err, city) {
             var cityMap = {};
             city.forEach(function(city) {
                 cityMap[city._id] = city;
             });
             res.send(cityMap);
-        });
+        });*/
 });
 
 app.use('/', router);
