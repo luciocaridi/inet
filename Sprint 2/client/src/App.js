@@ -1,10 +1,10 @@
 import React from 'react';
-import { Route, Link, BrowserRouter as Router, Switch } from 'react-router-dom'
-import Main from './Main'
-import Cities from './Cities'
-import Login from './Login'
-import Register from './Register'
-import './App.css';
+import { Route, Link, BrowserRouter as Router, Switch } from 'react-router-dom';
+import Main from './components/Main';
+import Cities from './components/Cities';
+import Login from './components/Login';
+import Register from './components/Register';
+import './App.css';;
 
 function App() {
   return (
@@ -19,5 +19,6 @@ function App() {
       </Router>
     </div>
     );
-}
+};
+
 export default App;
