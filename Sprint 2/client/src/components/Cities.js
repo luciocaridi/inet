@@ -41,10 +41,10 @@ componentDidMount() {
 
 
   render() {
-    const items = this.props.item.items;
+    const items = this.props.itemdos.items;
     return (
         <div>
-          {JSON.stringify(items)}
+          {items.map(()=>{})}
           <footer className="Main-footer">
               <Link to="/"><img src={home} className="Main-footer" alt="Home" /></Link>
         </footer>
@@ -60,11 +60,12 @@ Cities.propTypes = {
 };*/
 
 const mapStateToProps = (state) =>{ return {
-  item: state.item
+  itemdos: state.item
 }};
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(getItems, dispatch)
+  //actions: bindActionCreators(getItems, dispatch)
+  editarLista:(listaNueva) => { dispatch({type: 'GET_ITEMS', items: listaNueva})}
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cities);
