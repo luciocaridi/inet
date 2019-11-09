@@ -3,7 +3,7 @@ import '../main.css';
 import logo from '../img/MYtineraryLogo.png';
 import arrow from '../img/circled-right-2.png'
 import home from '../img/homeIcon.png'
-import { Route, Link, BrowserRouter as Router, Switch } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 function Main() {
   return (
