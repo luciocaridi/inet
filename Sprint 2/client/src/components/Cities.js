@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getItems } from '../actions/itemActions';
 import PropTypes from 'prop-types';
-// import { itemActions } from '../actions/itemActions'
+import { itemActions } from '../actions/itemActions'
+import initialState from '../reducers/itemReducer'
 
 
 
@@ -13,38 +14,27 @@ class Cities extends React.Component {
   constructor() {
     super();
     this.state= {
-      cities: [],
+      cities: initialState,
       estado: true,
     };
 
 }
 
 componentDidMount() {
-  
-  //this.props.item.items;
-  /*fetch('http://localhost:5000/cities/all')
+  fetch('http://localhost:5000/cities/all')
   .then(results => {
     return results.json();
-  }).then(data => {
-      let cities = data.map((city) => {
-        return(
-          <div key={city}>
-          <ul>
-            <li>{city.name}</li>
-          </ul>
-          </div>
-        )
-      })
-      this.setState({cities: cities});
-  })*/
-}
+  })
+    this.setState({cities: initialState});
+  }
+
 
 
   render() {
     const items = this.props.itemdos.items;
     return (
         <div>
-          {items.map(()=>{})}
+
           <footer className="Main-footer">
               <Link to="/"><img src={home} className="Main-footer" alt="Home" /></Link>
         </footer>
@@ -52,23 +42,33 @@ componentDidMount() {
       
     )
   } 
-};
-/*
+}
+
 Cities.propTypes = {
   getItems: PropTypes.func.isRequired,
   item: PropTypes.object.isRequired
-};*/
+};
 
 const mapStateToProps = (state) =>{ return {
   itemdos: state.item
 }};
 
 const mapDispatchToProps = dispatch => ({
-  //actions: bindActionCreators(getItems, dispatch)
-  editarLista:(listaNueva) => { dispatch({type: 'GET_ITEMS', items: listaNueva})}
+  actions: bindActionCreators(getItems, dispatch)
+  // editarLista:(listaNueva) => { dispatch({type: 'GET_ITEMS', items: listaNueva})}
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cities);
 
 /*         {this.state.cities}
  */
+
+
+ /*           {items.map((city) => {
+            return(
+              <div key={city}>
+              <ul>
+                <li>{city.name}</li>
+              </ul>
+              </div>
+          )})} */
