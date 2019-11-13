@@ -8,34 +8,36 @@ import PropTypes from 'prop-types';
 import { itemActions } from '../actions/itemActions'
 import initialState from '../reducers/itemReducer'
 
-
-
 class Cities extends React.Component {
   constructor() {
     super();
     this.state= {
       cities: initialState,
-      estado: true,
+      search: ''
     };
 
 }
 
-componentDidMount() {
-  fetch('http://localhost:5000/cities/all')
-  .then(results => {
-    return results.json();
-  })
-    this.setState({cities: initialState});
+  updateSearch(event) {
+    this.setState({search: event.target.value.substr(0, 20)});
   }
 
-
-
   render() {
-    const items = this.props.itemdos.items;
+    const items = this.props.itemdos.filter(
+      (item) => {
+        var ciudad = item.name.toLowerCase().indexOf(
+          this.state.search.toLowerCase()) !== -1 || item.country.toLowerCase().indexOf(
+          this.state.search.toLowerCase()) !== -1; 
+        return ciudad/*, pais */
+      }
+    );
     return (
         <div>
-
-          <footer className="Main-footer">
+        <input type="text" value={this.state.search} onChange={this.updateSearch.bind(this)} />
+        {items.map((ciudad)=> { 
+          return <h4 key={ciudad._id}><a href={`https://www.google.com/search?q=${ciudad.name} ${ciudad.country}`}>{ciudad.name} - {ciudad.country}</a> </h4>
+        })}
+        <footer className="Main-footer">
               <Link to="/"><img src={home} className="Main-footer" alt="Home" /></Link>
         </footer>
         </div>
@@ -49,26 +51,17 @@ Cities.propTypes = {
   item: PropTypes.object.isRequired
 };
 
-const mapStateToProps = (state) =>{ return {
+const mapStateToProps = (state) =>{
+  console.log(state);
+  
+   return {
   itemdos: state.item
 }};
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(getItems, dispatch)
-  // editarLista:(listaNueva) => { dispatch({type: 'GET_ITEMS', items: listaNueva})}
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cities);
 
-/*         {this.state.cities}
- */
 
-
- /*           {items.map((city) => {
-            return(
-              <div key={city}>
-              <ul>
-                <li>{city.name}</li>
-              </ul>
-              </div>
-          )})} */
