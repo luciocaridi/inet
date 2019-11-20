@@ -16,9 +16,14 @@ router.get('/test', function(req, res) {
 });
 var City = require('./models/City');
 
-router.get('/ciudades/:id', function(req, res) {
-    res.send('ciudad seleccionada: ' + req.params.id)
-})
+router.get('/itinerary/:name', (req, res) => {
+  	let cityRequested = req.params.name;
+  		City.findOne({ name: cityRequested })
+			.then(city => {
+				res.send(city)
+			})
+			.catch(err => console.log(err));
+});
 
 router.get('/cities/all', function(req, res) {
     City.find({}, function(err, cities) {

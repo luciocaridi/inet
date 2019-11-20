@@ -28,14 +28,14 @@ class Cities extends React.Component {
         var ciudad = item.name.toLowerCase().indexOf(
           this.state.search.toLowerCase()) !== -1 || item.country.toLowerCase().indexOf(
           this.state.search.toLowerCase()) !== -1; 
-        return ciudad/*, pais */
+        return ciudad
       }
     );
     return (
         <div>
         <input type="text" value={this.state.search} onChange={this.updateSearch.bind(this)} />
         {items.map((ciudad)=> { 
-          return <Link to={`/cities/${ciudad.name}`}><h4 key={ciudad._id}>{ciudad.name} - {ciudad.country}</h4></Link>
+          return <Link to={`/itinerary/${ciudad.name}`}><h4 key={ciudad._id}>{ciudad.name} - {ciudad.country}</h4></Link>
         })}
         <footer className="Main-footer">
               <Link to="/"><img src={home} className="Main-footer" alt="Home" /></Link>
