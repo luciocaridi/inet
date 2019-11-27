@@ -1,23 +1,18 @@
-import {GET_ITEMS} from '../actions/types';
+import { GET_ITEMS } from '../actions/types';
 
-const initialState = []
+var initialState = {
+    data:[]
+};
+const itemReducer= (state = initialState, action) => {
 
-fetch('http://localhost:5000/cities/all')
-    .then((response) => {
-        return response.json();
-        }).then (function (json) { 
-        json.map((element) => {
-            initialState.push(element) 
-})});
-console.log(initialState)
-
-export default function (state = initialState, action) {
-    switch(action.type) {
+    switch (action.type) {
         case GET_ITEMS:
             return {
-                ...state
+                ...state,
+                data: action.payload
             }
-        default: 
+        default:
             return state;
     }
-};
+}
+export default itemReducer;

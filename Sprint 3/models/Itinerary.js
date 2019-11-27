@@ -1,25 +1,31 @@
-var mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-
-const ItinerarySchema = new Schema({
-    title: {
-        type: String
-    },
-    profilePic: {
-        type: String
-    },
-    rating: {
-        type: Number
-    },
-    duration: {
-        type: Number
-    },
-    price: {
-        type: Number
-    },
-    hashtag: {
-        type: Array
-    }
+const mongoose = require('mongoose');
+// const cityModel = require('./City');
+const itinerarySchema = new mongoose.Schema({
+  city: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'City'
+  },
+  title: {
+    type: String
+  },
+  username: {
+    type: String
+  },
+  profilePic: {
+    type: String
+  },
+  likes: {
+    type: Number
+  },
+  duration: {
+    type: Number
+  },
+  price: {
+    type: Number
+  },
+  hashtag: {
+    type: Array
+  }
 });
 
-module.exports = Itinerary = mongoose.model("itinerary", ItinerarySchema);
+module.exports = mongoose.model('Itinerary', itinerarySchema, "itineraries");

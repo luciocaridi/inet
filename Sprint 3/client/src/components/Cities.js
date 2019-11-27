@@ -1,28 +1,70 @@
-import React from 'react';
-import { Route, Link, BrowserRouter as Router, Switch } from 'react-router-dom';
-import home from '../img/homeIcon.png';
+import React from 'react'
+import home from '../img/homeIcon.png'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { getItems } from '../actions/itemActions';
-import PropTypes from 'prop-types';
-import { itemActions } from '../actions/itemActions'
-import initialState from '../reducers/itemReducer'
+import {SetItemsFetch}  from '../actions/itemAction';
 
-class Cities extends React.Component {
-  constructor() {
-    super();
-    this.state= {
-      cities: initialState,
+class CitiesPages extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      cities: [],
       search: ''
     };
+  }
+  async componentDidMount(){
+    await this.props.actionsgetItems()
+    this.setState({cities:this.props.citiesRedux})
+    
+  }
 
-}
-
-  updateSearch(event) {
-    this.setState({search: event.target.value.substr(0, 20)});
+  filterCities = (e) => {
+    console.log();
+    var items = this.props.citiesRedux
+    items=items.filter((item)=>{
+      var ciudad= item.name.toLowerCase() + item.country.toLowerCase()
+      return ciudad.indexOf(
+        e.target.value.toLowerCase()) !== -1 
+    })
+    this.setState({cities:items})
   }
 
   render() {
+   
+    return (
+      <div className="mb-2">
+        <div className="row">
+          <div className="column mx-auto mt-4">
+            {<input type="text" onChange={this.filterCities} />}
+            {this.state.cities.length>0?
+            this.state.cities.map((ciudad)=> {
+            return <Link to={`/cities/${ciudad.name}`} key={ciudad._id}><h4 key={ciudad._id}>{ciudad.name} - {ciudad.country}</h4></Link>
+       }):<div></div>}
+
+            <footer className="Main-footer">
+              <Link to="/"><img src={home} className="Main-footer" alt="Home" /></Link>
+            </footer>
+          </div>
+        </div>
+      </div>
+    )
+  }
+}
+  
+const mapStateToProps = (state) => {
+  console.log('mapStateToProps', state);
+  
+  return {
+    citiesRedux: state.reducerCity.data
+  }
+};
+const mapDispatchToProps = dispatch => ({
+  actionsgetItems:() => dispatch(SetItemsFetch())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps )(CitiesPages);
+
+/* render() {
     const items = this.props.itemdos.filter(
       (item) => {
         var ciudad = item.name.toLowerCase().indexOf(
@@ -41,28 +83,6 @@ class Cities extends React.Component {
               <Link to="/"><img src={home} className="Main-footer" alt="Home" /></Link>
         </footer>
         </div>
-      
     )
   } 
-}
-
-Cities.propTypes = {
-  getItems: PropTypes.func.isRequired,
-  item: PropTypes.object.isRequired
-};
-
-const mapStateToProps = (state) =>{
-  console.log(state);
-  
-   return {
-  itemdos: state.item
-}};
-
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(getItems, dispatch)
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Cities);
-
-
-//           return <h4 key={ciudad._id}><a href={`localhost:5000/ciudades/${ciudad.name}`/*${ciudad.name} {ciudad.country}`*/}>{ciudad.name} - {ciudad.country}</a> </h4>
+} */
